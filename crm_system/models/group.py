@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
+
 
 from crm_system.models.database import Base
 
@@ -11,6 +11,5 @@ class Group(Base):
     group_name = Column(String)
 
 
-
     def __repr__(self):
-        return f'Group [ID: {self.id}, Name: {self.group_name}]'
+        return [self.id, self.group_name]

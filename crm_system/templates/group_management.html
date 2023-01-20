@@ -4,7 +4,7 @@
 {% for group in groups %}
 <a>{{ group }}</a>
 {% endfor %}
-
+{{ user }}
 <form action="/group_management" method="post">
   <label for="gr_name">Enter name of group to add </label>
   <input type="text" id="gr_name" name="gr_name">

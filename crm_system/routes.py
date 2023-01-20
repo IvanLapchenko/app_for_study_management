@@ -2,9 +2,7 @@ from flask import render_template, request
 from crm_system import app
 from crm_system.models.database import session, database
 from crm_system.models.group import Group
-
-
-
+from crm_system.models.student import Student
 
 
 @app.route("/")
@@ -14,9 +12,10 @@ def index():
 
 @app.route("/group_management", methods=["GET", "POST"])
 def group_management():
+    groups = session.query(Group)
     if request.method == "POST":
-        gr_name = request.form["gr_name"]
-        student = Group(surname = "some",    name = "some",    age = 15,    address = "addr",    )
+        group_name = request.form["gr_name"]
+        student = Group(group_name=group_name)
         session.add(student)
         session.commit()
-    return render_template("group_management.html", groups=[1,2])
+    return render_template("group_management.html", groups=groups)
