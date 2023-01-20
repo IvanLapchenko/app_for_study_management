@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-db_name = 'app.sqlite'
+db_name = 'app.db'
 
 engine = create_engine(f'sqlite:///{db_name}')
 Session = sessionmaker(bind=engine)
