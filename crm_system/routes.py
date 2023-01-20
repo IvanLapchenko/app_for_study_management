@@ -16,7 +16,7 @@ def index():
 def group_management():
     if request.method == "POST":
         gr_name = request.form["gr_name"]
-        group = Group(group_name=gr_name)
-        database.session.add(group)
-        database.session.commit()
+        student = Group(surname = "some",    name = "some",    age = 15,    address = "addr",    )
+        session.add(student)
+        session.commit()
     return render_template("group_management.html", groups=[1,2])
