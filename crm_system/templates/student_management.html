@@ -7,4 +7,21 @@
 <span>{{ name }}</span>
 {% endfor %}
 
+
+<h2>Add student to this group</h2>
+<form method="post">
+    <label for="surname">Enter surname of student</label>
+    <input type="text" id="surname" name="surname"><br>
+
+    <label for="name">Enter name of student</label>
+    <input type="text" id="name" name="name"><br>
+
+    <label for="age">Enter age of student</label>
+    <input type="text" id="age" name="age"><br>
+
+    <label for="address">Enter address of student</label>
+    <input type="text" id="address" name="address"><br>
+
+    <input type="submit" value="ADD">
+</form>
 {% endblock %}

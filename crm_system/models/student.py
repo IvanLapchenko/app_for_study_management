@@ -13,9 +13,9 @@ class Student(Base):
     address = Column(String)
     group = Column(Integer, ForeignKey('groups.id'))
 
-    def __init__(self, full_name: list[str], age: int, address: str, id_group: int):
-        self.surname = full_name[0]
-        self.name = full_name[1]
+    def __init__(self, name: str, surname: str, age: int, address: str, id_group: int):
+        self.surname = surname
+        self.name = name
         self.age = age
         self.address = address
         self.group = id_group
