@@ -11,5 +11,5 @@ class Group(Base):
     group_name = Column(String)
 
 
-    def __repr__(self):
-        return [self.id, self.group_name]
+    # def __repr__(self):
+    #     return f"{self.group_name}"

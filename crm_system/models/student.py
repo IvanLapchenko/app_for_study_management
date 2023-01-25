@@ -20,7 +20,6 @@ class Student(Base):
         self.address = address
         self.group = id_group
 
-    def __repr__(self):
-        info: str = f'Student [Name: {self.surname} {self.name}, ' \
-            f'Age: {self.age}, Address: {self.address}, Group ID: {self.group}]'
-        return info
+    # def __repr__(self):
+    #     info = f"self.surname, self.name, self.age, self.address, self.group"
+    #     return info

@@ -16,5 +16,5 @@ class Lesson(Base):
     lesson_title = Column(String)
     groups = relationship('Group', secondary=association_table, backref='group_lesson')
 
-    def __repr__(self):
-        return f'Lesson [ID: {self.id}, Name: {self.lesson_title}]'
+    # def __repr__(self):
+    #     return f'Lesson [ID: {self.id}, Name: {self.lesson_title}]'
