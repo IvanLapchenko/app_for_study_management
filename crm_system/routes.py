@@ -41,3 +41,7 @@ def group_list(g_name):
         return redirect(f"/student_management/{g_name}")
     return render_template("student_management.html", group=group)
 
+
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
