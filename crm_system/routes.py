@@ -14,42 +14,47 @@ def main():
     return render_template("main.html")
 
 
-@app.route("/group_management", methods=["GET", "POST"])
-@login_required
-def group_management():
+@app.route("/group_management")
+def user_group():
     all_data = session.query(Group).all()
     all_data = [i.group_name for i in all_data]
-
-    if request.method == "POST":
-        group_name = request.form["gr_name"]
-        group = Group(group_name=group_name)
-        session.add(group)
-        session.commit()
-        session.close()
-
-        return redirect("group_management")
     return render_template("group_management.html", group_names=all_data)
 
 
-@app.route("/student_management/<g_name>", methods=["GET", "POST"])
+@app.route("/group_management", methods=["POST"])
+@login_required
+def group_management():
+    group_name = request.form["gr_name"]
+    group = Group(group_name=group_name)
+    session.add(group)
+    session.commit()
+    session.close()
+    return redirect("group_management")
+
+
+@app.route("/student_management/<g_name>")
+def user_group_list(g_name):
+    gr_id = session.query(Group).where(Group.group_name == g_name).first().id
+    group = session.query(Student).where(Student.group == gr_id).all()
+    group = [i.name for i in group]
+    return render_template("student_management.html", group=group)
+
+
+@app.route("/student_management/<g_name>", methods=["POST"])
 @login_required
 def group_list(g_name):
     gr_id = session.query(Group).where(Group.group_name == g_name).first().id
-    group = session.query(Student).where(Student.group == gr_id).all()
+    surname = request.form["surname"]
+    name = request.form["name"]
+    age = request.form["age"]
+    address = request.form["address"]
 
-    if request.method == "POST":
-        surname = request.form["surname"]
-        name = request.form["name"]
-        age = request.form["age"]
-        address = request.form["address"]
+    student = Student(surname=surname, name=name, age=int(age), address=address, id_group=gr_id)
+    session.add(student)
+    session.commit()
+    session.close()
 
-        student = Student(surname=surname, name=name, age=int(age), address=address, id_group=gr_id)
-        session.add(student)
-        session.commit()
-        session.close()
-
-        return redirect(f"/student_management/{g_name}")
-    return render_template("student_management.html", group=group)
+    return redirect(f"/student_management/{g_name}")
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -97,7 +102,8 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main'))
+
 
 @login_manager.user_loader
 def load_user(user_id):
