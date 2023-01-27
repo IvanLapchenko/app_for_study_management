@@ -8,13 +8,14 @@ from crm_system.models.student import Student
 from crm_system.models.user import User
 
 
+@app.route("/")
 @app.route("/main")
 def main():
     return render_template("main.html")
 
 
-@app.route("/")
 @app.route("/group_management", methods=["GET", "POST"])
+@login_required
 def group_management():
     all_data = session.query(Group).all()
     all_data = [i.group_name for i in all_data]
@@ -31,6 +32,7 @@ def group_management():
 
 
 @app.route("/student_management/<g_name>", methods=["GET", "POST"])
+@login_required
 def group_list(g_name):
     gr_id = session.query(Group).where(Group.group_name == g_name).first().id
     group = session.query(Student).where(Student.group == gr_id).all()
