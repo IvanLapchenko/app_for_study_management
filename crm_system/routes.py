@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user, current_user, login_required
+from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from crm_system import app, login_manager
 from crm_system.models.database import session
@@ -92,6 +92,12 @@ def login():
 
     return render_template("login.html")
 
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))
 
 @login_manager.user_loader
 def load_user(user_id):
