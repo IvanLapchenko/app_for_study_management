@@ -1,6 +1,4 @@
 from sqlalchemy import Column, Integer, String
-
-
 from crm_system.models.database import Base
 
 

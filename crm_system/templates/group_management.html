@@ -2,12 +2,12 @@
 
 {% block content %}
 {% for group in group_names %}
-<a href="/student_management/{{ group }}">{{ group }}</a>
+<a href="/student_management/{{ group }}" class="button">{{ group }}</a>
 {% endfor %}
-{{ user }}
+
 <form action="/group_management" method="post">
-  <label for="gr_name">Enter name of group to add </label>
-  <input type="text" id="gr_name" name="gr_name">
-  <input type="submit" value="ADD">
+  <label for="gr_name">Enter name of group to add </label><br>
+  <input type="text" id="gr_name" name="gr_name"><br>
+  <input type="submit" value="ADD" class="button">
 </form>
 {% endblock %}
