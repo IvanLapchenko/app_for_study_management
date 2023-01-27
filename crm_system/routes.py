@@ -1,6 +1,7 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
+from flask_login import login_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from crm_system import app
+from crm_system import app, login_manager
 from crm_system.models.database import session
 from crm_system.models.group import Group
 from crm_system.models.student import Student
@@ -58,6 +59,7 @@ def signup():
         user = session.query(User).where(User.username == username).first()
 
         if user:
+            flash('This user already exists')
             return redirect(url_for('signup'))
 
         new_user = User(username=username, password=generate_password_hash(password, method='sha256'))
@@ -75,12 +77,20 @@ def login():
     if request.method == "POST":
         username = request.form.get('name')
         password = request.form.get('password')
+        remember = True if request.form.get('remember') else False
 
         user = session.query(User).where(User.username == username).first()
 
         if not user or not check_password_hash(user.password, password):
+            flash('Please check your login details and try again.')
             return redirect(url_for("login"))
 
+        login_user(user, remember=remember)
         return redirect(url_for("main"))
 
     return render_template("login.html")
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return session.query(User).get(int(user_id))
