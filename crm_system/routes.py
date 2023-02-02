@@ -36,7 +36,7 @@ def group_management():
 def user_group_list(g_name):
     gr_id = session.query(Group).where(Group.group_name == g_name).first().id
     group = session.query(Student).where(Student.group == gr_id).all()
-    group = [i.name for i in group]
+    group = {i.name:i.surname for i in group}
     return render_template("student_management.html", group=group)
 
 

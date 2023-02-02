@@ -40,3 +40,12 @@ li a {
 li a:hover {
   background-color: #c5c96f;
 }
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+tr {
+  border-bottom: 1px solid #ddd;
+}
