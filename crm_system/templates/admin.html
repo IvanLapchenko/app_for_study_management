@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Add new group</h2>
+    <form action="/group_management" method="post">
+        <label for="gr_name">Enter name of group to add </label><br>
+        <input type="text" id="gr_name" name="gr_name"><br>
+        <input type="submit" value="ADD" class="button">
+    </form>
+
+    <h2>Add student to the group</h2>
+    <form action="/student_management/" method="post">
+        <label for="surname">Enter surname of student</label><br>
+        <input type="text" id="surname" name="surname"><br>
+
+        <label for="name">Enter name of student</label><br>
+        <input type="text" id="name" name="name"><br>
+
+        <label for="age">Enter age of student</label><br>
+        <input type="text" id="age" name="age"><br>
+
+        <label for="address">Enter address of student</label><br>
+        <input type="text" id="address" name="address"><br>
+        
+        <select name="group">
+            {% for group in groups %}
+            <option value="{{ group }}">{{ group }}</option>
+            {% endfor %}
+        </select><br>
+
+        <input type="submit" value="ADD" class="button">
+    </form>
+{% endblock %}

@@ -11,7 +11,7 @@ from .models.user import User
 @app.route("/")
 @app.route("/main")
 def main():
-    return render_template("main.html")
+    return render_template("admin.html")
 
 
 @app.route("/group_management")
@@ -40,7 +40,7 @@ def user_group_list(g_name):
     return render_template("student_management.html", group=group)
 
 
-@app.route("/student_management/<g_name>", methods=["POST"])
+@app.route("/student_management", methods=["POST"])
 @login_required
 def group_list(g_name):
     gr_id = session.query(Group).where(Group.group_name == g_name).first().id
