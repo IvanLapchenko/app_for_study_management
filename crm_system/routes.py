@@ -87,9 +87,11 @@ def login():
         password = request.form.get('password')
         remember = True if request.form.get('remember') else False
 
-        user = session.query(User).where(User.username == username).first()
+        user = session.query(Student).where(Student.username == username).first()
 
         if not user or not check_password_hash(user.password, password):
+            print(user)
+            print(check_password_hash(user.password, password))
             flash('Please check your login details and try again.')
             return redirect(url_for("login"))
 

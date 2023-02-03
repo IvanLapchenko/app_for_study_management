@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from models.database import Base
+from crm_system.models.database import Base
 
 
 class Group(Base):
