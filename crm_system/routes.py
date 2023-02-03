@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import app, login_manager
 from .models.database import session
@@ -11,7 +11,7 @@ from .models.user import User
 @app.route("/")
 @app.route("/main")
 def main():
-    return render_template("admin.html")
+    return render_template("main.html")
 
 
 @app.route("/group_management")
@@ -96,6 +96,25 @@ def login():
         return redirect(url_for("main"))
 
     return render_template("login.html")
+
+
+@app.route("/admin")
+def admin():
+    groups = session.query(Group).all()
+    groups = [i.group_name for i in groups]
+    return render_template("admin.html", groups=groups)
+
+
+@app.route("/profile")
+def profile():
+    
+    gr_name = session.query(Group).where(Group.id == current_user.group).first().group_name
+    name = current_user.name
+    lessons = ["mock1", "mock2"]
+    print(current_user.id)
+    return render_template("profile.html", name=name, gr_name=gr_name, lessons=lessons)
+    #todo add getting student id and his data by it 
+    #i believe we should usr current_user.id or something
 
 
 @app.route("/logout")
