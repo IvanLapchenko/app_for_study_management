@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Table, ForeignKey
 from sqlalchemy.orm import relationship
-from crm_system.models.database import Base
+from models.database import Base
 
 
 association_table = Table('association', Base.metadata,

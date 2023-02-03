@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from crm_system.models.database import Base
+from models.database import Base
 from flask_login import UserMixin
 
 

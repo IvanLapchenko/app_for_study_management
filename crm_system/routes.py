@@ -5,7 +5,6 @@ from . import app, login_manager
 from .models.database import session
 from .models.group import Group
 from .models.student import Student
-from .models.user import User
 
 
 @app.route("/")
@@ -48,8 +47,10 @@ def group_list(g_name):
     name = request.form["name"]
     age = request.form["age"]
     address = request.form["address"]
+    username = request.form["username"]
+    password = request.form["password"]
 
-    student = Student(surname=surname, name=name, age=int(age), address=address, id_group=gr_id)
+    student = Student(surname=surname, name=name, age=int(age), address=address, id_group=gr_id, username=username, password=password)
     session.add(student)
     session.commit()
     session.close()
@@ -57,26 +58,26 @@ def group_list(g_name):
     return redirect(f"/student_management/{g_name}")
 
 
-@app.route("/signup", methods=["GET", "POST"])
-def signup():
-    if request.method == "POST":
-        username = request.form.get('name')
-        password = request.form.get('password')
+# @app.route("/signup", methods=["GET", "POST"])
+# def signup():
+#     if request.method == "POST":
+#         username = request.form.get('name')
+#         password = request.form.get('password')
 
-        user = session.query(User).where(User.username == username).first()
+#         user = session.query(User).where(User.username == username).first()
 
-        if user:
-            flash('This user already exists')
-            return redirect(url_for('signup'))
+#         if user:
+#             flash('This user already exists')
+#             return redirect(url_for('signup'))
 
-        new_user = User(username=username, password=generate_password_hash(password, method='sha256'))
+#         new_user = User(username=username, password=generate_password_hash(password, method='sha256'))
 
-        session.add(new_user)
-        session.commit()
-        session.close()
+#         session.add(new_user)
+#         session.commit()
+#         session.close()
 
-        return redirect("login")
-    return render_template("signup.html")
+#         return redirect("login")
+#     return render_template("signup.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -107,7 +108,7 @@ def admin():
 
 @app.route("/profile")
 def profile():
-    
+
     gr_name = session.query(Group).where(Group.id == current_user.group).first().group_name
     name = current_user.name
     lessons = ["mock1", "mock2"]
@@ -126,4 +127,4 @@ def logout():
 
 @login_manager.user_loader
 def load_user(user_id):
-    return session.query(User).get(int(user_id))
+    return session.query(Student).get(int(user_id))
