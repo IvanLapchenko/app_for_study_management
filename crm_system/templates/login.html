@@ -10,16 +10,15 @@
             </div>
     {% endif %}
     {% endwith %}
+    
     <form method="POST" action="/login">
-
-        <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="">
-
-        <input class="input is-large" type="password" name="password" placeholder="Password">
-
-        <label for="remember">Remember me</label>
-        <input type="checkbox" id="remember" name="remember">
-
-        <button class="button">Sign Up</button>
+        {{form.username.label}}<br>
+        {{form.username}}<br>
+        {{form.password.label}}<br>
+        {{form.password}}<br>
+        {{form.remember}}
+        {{form.remember.label}}<br>
+        {{form.submit}}
     </form>
 </div>
 {% endblock %}

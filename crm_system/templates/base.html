@@ -8,9 +8,12 @@
 <body>
 <ul class="nav">
     <li><a href="/group_management">Manage groups</a></li>
-    <li><a href="/admin">Admin</a></li>
-    <li><a href="/profile">Profile</a></li>
     {% if current_user.is_authenticated %}
+    {% if current_user.username == "admin" %}
+    <li><a href="/admin">Admin</a></li>
+    {% else %}
+    <li><a href="/profile">Profile</a></li>
+    {% endif %}
     <li><a href="/logout">Log out</a></li>
     {% else %}
     <li><a href="/login">Log in</a></li>

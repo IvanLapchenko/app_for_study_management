@@ -6,6 +6,7 @@ from .models.database import session
 from .models.group import Group
 from .models.student import Student
 from .admin_method import *
+from .forms import *
 
 
 @app.route("/")
@@ -62,10 +63,11 @@ def group_list():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    form = LoginForm()
     if request.method == "POST":
-        username = request.form.get('name')
+        username = request.form.get('username')
         password = request.form.get('password')
-        remember = True if request.form.get('remember') else False
+        remember = request.form.get('remember')
 
         user = session.query(Student).where(Student.username == username).first()
 
@@ -76,7 +78,7 @@ def login():
         login_user(user, remember=remember)
         return redirect(url_for("main"))
 
-    return render_template("login.html")
+    return render_template("login.html", form=form)
 
 
 @app.route("/admin")
