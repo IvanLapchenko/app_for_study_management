@@ -41,43 +41,21 @@ def user_group_list(g_name):
 
 @app.route("/student_management", methods=["POST"])
 @login_required
-def group_list(g_name):
-    gr_id = session.query(Group).where(Group.group_name == g_name).first().id
+def group_list():
     surname = request.form["surname"]
     name = request.form["name"]
     age = request.form["age"]
     address = request.form["address"]
     username = request.form["username"]
     password = request.form["password"]
+    gr_id = request.form["group"]
 
     student = Student(surname=surname, name=name, age=int(age), address=address, id_group=gr_id, username=username, password=password)
     session.add(student)
     session.commit()
     session.close()
 
-    return redirect(f"/student_management/{g_name}")
-
-
-# @app.route("/signup", methods=["GET", "POST"])
-# def signup():
-#     if request.method == "POST":
-#         username = request.form.get('name')
-#         password = request.form.get('password')
-
-#         user = session.query(User).where(User.username == username).first()
-
-#         if user:
-#             flash('This user already exists')
-#             return redirect(url_for('signup'))
-
-#         new_user = User(username=username, password=generate_password_hash(password, method='sha256'))
-
-#         session.add(new_user)
-#         session.commit()
-#         session.close()
-
-#         return redirect("login")
-#     return render_template("signup.html")
+    return redirect("/admin")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -110,7 +88,6 @@ def admin():
 
 @app.route("/profile")
 def profile():
-
     gr_name = session.query(Group).where(Group.id == current_user.group).first().group_name
     name = current_user.name
     lessons = ["mock1", "mock2"]
