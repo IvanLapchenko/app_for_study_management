@@ -5,6 +5,7 @@ from . import app, login_manager
 from .models.database import session
 from .models.group import Group
 from .models.student import Student
+from .admin_method import *
 
 
 @app.route("/")
@@ -47,8 +48,9 @@ def group_list():
     age = request.form["age"]
     address = request.form["address"]
     username = request.form["username"]
-    password = request.form["password"]
-    gr_id = request.form["group"]
+    password = generate_password_hash(request.form["password"])
+    gr_name = request.form["group"]
+    gr_id = session.query(Group).where(Group.group_name == gr_name).first().id
 
     student = Student(surname=surname, name=name, age=int(age), address=address, id_group=gr_id, username=username, password=password)
     session.add(student)
@@ -68,8 +70,6 @@ def login():
         user = session.query(Student).where(Student.username == username).first()
 
         if not user or not check_password_hash(user.password, password):
-            print(user)
-            print(check_password_hash(user.password, password))
             flash('Please check your login details and try again.')
             return redirect(url_for("login"))
 
@@ -80,6 +80,7 @@ def login():
 
 
 @app.route("/admin")
+@admin_required
 def admin():
     groups = session.query(Group).all()
     groups = [i.group_name for i in groups]
@@ -87,14 +88,13 @@ def admin():
 
 
 @app.route("/profile")
+@login_required
 def profile():
     gr_name = session.query(Group).where(Group.id == current_user.group).first().group_name
     name = current_user.name
     lessons = ["mock1", "mock2"]
     print(current_user.id)
     return render_template("profile.html", name=name, gr_name=gr_name, lessons=lessons)
-    #todo add getting student id and his data by it 
-    #i believe we should usr current_user.id or something
 
 
 @app.route("/logout")
